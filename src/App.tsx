@@ -17,7 +17,7 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <Box sx={{ margin: 0, padding: 0 }}>
         <NavBar onSearch={handleSearch} />
-        <List searchQuery={searchQuery} /> {/* Pass searchQuery to List */}
+        <List searchQuery={searchQuery} />
       </Box>
     </ThemeProvider>
   );

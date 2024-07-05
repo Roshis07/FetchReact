@@ -6,11 +6,8 @@ interface BodyProps {
 }
 
 const Body: React.FC<BodyProps> = ({ searchQuery }) => {
-  return (
-    <div>
-      <List searchQuery={searchQuery} /> {/* Pass searchQuery to List */}
-    </div>
-  );
+  console.log(searchQuery);
+  return <List searchQuery={searchQuery} />;
 };
 
 export default Body;

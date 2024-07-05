@@ -19,6 +19,8 @@ const List: React.FC<ListProps> = ({ searchQuery }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
 
+  const [filteredData, setFilteredData] = useState<Coin[] | null>(fetchData);
+
   useEffect(() => {
     async function fetchDataFromApi() {
       try {
@@ -30,6 +32,7 @@ const List: React.FC<ListProps> = ({ searchQuery }) => {
         }
         const data: Coin[] = await response.json();
         setFetchData(data);
+        setFilteredData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
         setFetchData(null);
@@ -48,10 +51,12 @@ const List: React.FC<ListProps> = ({ searchQuery }) => {
   // Filter fetchData based on searchQuery if needed
   useEffect(() => {
     if (fetchData && searchQuery.trim() !== "") {
-      const filteredData = fetchData.filter((coin) =>
+      const newData = fetchData.filter((coin) =>
         coin.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFetchData(filteredData);
+      setFilteredData(newData);
+    } else if (searchQuery.trim() === "") {
+      setFilteredData(fetchData);
     }
   }, [searchQuery]);
 
@@ -81,7 +86,7 @@ const List: React.FC<ListProps> = ({ searchQuery }) => {
             <p>Loading...</p>
           ) : fetchData ? (
             <Grid container spacing={2}>
-              {fetchData.map((coin) => (
+              {filteredData?.map((coin) => (
                 <Grid item xs={12} sm={6} md={6} key={coin.id}>
                   <MediaCard
                     name={coin.name}
