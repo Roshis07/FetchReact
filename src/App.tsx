@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import NavBar from "./Components/NavBar";
+import List from "./Components/List";
 
-function App() {
+const theme = createTheme();
+
+const App: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Box sx={{ margin: 0, padding: 0 }}>
+        <NavBar onSearch={handleSearch} />
+        <List searchQuery={searchQuery} /> {/* Pass searchQuery to List */}
+      </Box>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
